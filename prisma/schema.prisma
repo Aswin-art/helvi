@@ -1,0 +1,274 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLE {
+  USER
+  ADMIN
+  ADMIN_POST
+}
+
+enum BLOGTYPE {
+  BLOG
+  EDUCATION
+}
+
+enum CLEANINGTYPE {
+  MITRA
+  PUBLIC
+}
+
+model User {
+  id               String             @id @default(cuid())
+  name             String?
+  email            String
+  photo_url        String
+  role             ROLE               @default(USER)
+  point            Int                @default(0)
+  coin             Int                @default(0)
+  is_badge         Boolean?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  WasteExchange    WasteExchanges[]
+  CleaningServices CleaningServices[]
+  WasteReports     WasteReports[]
+  UserBuys         UserBuys[]
+  Communities      Communities[]
+  UserCommunities  UserCommunities[]
+  UserEvents       UserEvents[]
+  Comments         Comments[]
+  UserAchievements UserAchievements[]
+  UserMissions     UserMissions[]
+  LogActivity      LogActivities[]
+  UserRewards      UserRewards[]
+}
+
+model WasteExchanges {
+  id          String   @id @default(cuid())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  weight      Decimal
+  image       String?
+  total_point Int
+  total_coin  Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model CleaningServices {
+  id               String       @id @default(cuid())
+  user_id          String
+  user             User         @relation(fields: [user_id], references: [id])
+  description      String
+  address          String
+  customer_contact String
+  type             CLEANINGTYPE @default(PUBLIC)
+  cleaning_date    DateTime
+  status           Boolean      @default(false)
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+}
+
+model Products {
+  id          String     @id @default(cuid())
+  name        String
+  description String
+  image       String?
+  price       Decimal
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  UserBuys    UserBuys[]
+}
+
+model UserBuys {
+  id         String   @id @default(cuid())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  product_id String
+  product    Products @relation(fields: [product_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Communities {
+  id              String            @id @default(cuid())
+  user_id         String
+  user            User              @relation(fields: [user_id], references: [id])
+  name            String
+  description     String
+  image           String
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  UserCommunities UserCommunities[]
+  Events          Events[]
+}
+
+model UserCommunities {
+  id           String      @id @default(cuid())
+  user_id      String
+  user         User        @relation(fields: [user_id], references: [id])
+  community_id String
+  community    Communities @relation(fields: [community_id], references: [id])
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+}
+
+model Events {
+  id           String       @id @default(cuid())
+  community_id String
+  community    Communities  @relation(fields: [community_id], references: [id])
+  title        String
+  description  String
+  image        String
+  location     String
+  event_date   DateTime
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+  UserEvents   UserEvents[]
+}
+
+model UserEvents {
+  id         String   @id @default(cuid())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  event_id   String
+  event      Events   @relation(fields: [event_id], references: [id])
+  user_code  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Blogs {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  image       String?
+  status      Boolean    @default(true)
+  type        BLOGTYPE   @default(BLOG)
+  video_url   String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  Comments    Comments[]
+}
+
+model Comments {
+  id         String   @id @default(cuid())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  blog_id    String
+  blog       Blogs    @relation(fields: [blog_id], references: [id])
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Achievements {
+  id               String             @id @default(cuid())
+  name             String
+  description      String
+  image            String
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  UserAchievements UserAchievements[]
+}
+
+model UserAchievements {
+  id             String       @id @default(cuid())
+  user_id        String
+  user           User         @relation(fields: [user_id], references: [id])
+  achievement_id String
+  achievement    Achievements @relation(fields: [achievement_id], references: [id])
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+}
+
+model DailyMissions {
+  id           String         @id @default(cuid())
+  title        String
+  description  String
+  point        Int
+  coin         Int
+  status       Boolean        @default(true)
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  UserMissions UserMissions[]
+}
+
+model UserMissions {
+  id               String        @id @default(cuid())
+  user_id          String
+  user             User          @relation(fields: [user_id], references: [id])
+  daily_mission_id String
+  daily_mission    DailyMissions @relation(fields: [daily_mission_id], references: [id])
+  status           Boolean       @default(true)
+  created_at       DateTime      @default(now())
+  updated_at       DateTime      @updatedAt
+}
+
+model WasteReports {
+  id         String   @id @default(cuid())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  location   String
+  image      String
+  point      Int      @default(0)
+  coin       Int      @default(0)
+  status     Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model WasteTransportationSchedules {
+  id          String   @id @default(cuid())
+  location    String
+  date_pickup DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model LogActivities {
+  id         String   @id @default(cuid())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  action     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model AdminPosts {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  location    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Rewards {
+  id          String        @id @default(cuid())
+  name        String
+  image       String
+  price       Decimal
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  UserRewards UserRewards[]
+}
+
+model UserRewards {
+  id        String  @id @default(cuid())
+  user_id   String
+  user      User    @relation(fields: [user_id], references: [id])
+  reward_id String
+  reward    Rewards @relation(fields: [reward_id], references: [id])
+}
