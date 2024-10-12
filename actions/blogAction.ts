@@ -46,6 +46,7 @@ export const createNewBlog = async (
     return createBlog;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };
 

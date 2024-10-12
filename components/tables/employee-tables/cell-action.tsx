@@ -1,17 +1,17 @@
-'use client';
-import { AlertModal } from '@/components/modal/alert-modal';
-import { Button } from '@/components/ui/button';
+"use client";
+import { AlertModal } from "@/components/modal/alert-modal";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Employee } from '@/constants/data';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Employee } from "@/constants/data";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface CellActionProps {
   data: Employee;
@@ -43,7 +43,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/user/${data.id}`)}
+            onClick={() => router.push(`/dashboard/users/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

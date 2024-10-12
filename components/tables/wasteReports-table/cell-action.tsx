@@ -1,4 +1,5 @@
 "use client";
+import { deleteWasteReports } from "@/actions/wasteReportAction";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,18 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import {
-  Blogs,
-  CleaningServices,
-  Communities,
-  User,
-  Events,
-  WasteReports,
-} from "@prisma/client";
+import { WasteReports } from "@prisma/client";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface CellActionProps {
   data: WasteReports;
@@ -30,7 +24,16 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    const req = await deleteWasteReports(data.id);
+
+    if (req) {
+      window.location.reload();
+      return toast.success("Berhasil menghapus data!");
+    }
+
+    return toast.error("Server mengalami gangguan!");
+  };
 
   return (
     <>

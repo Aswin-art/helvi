@@ -22,6 +22,9 @@ export const getAllUserWasteExchanges = async () => {
       where: {
         user_id: user.id,
       },
+      include: {
+        user: true,
+      },
     });
 
     return waste_exchanges;

@@ -40,10 +40,10 @@ const items = [
     name: "Berita",
     url: "/blogs",
   },
-  {
-    name: "Panduan",
-    url: "/educations",
-  },
+  // {
+  //   name: "Panduan",
+  //   url: "/educations",
+  // },
 ];
 
 const Navbar = (props: Props) => {

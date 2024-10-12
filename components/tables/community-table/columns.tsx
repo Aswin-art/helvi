@@ -1,11 +1,10 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Employee } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Blogs, Communities, User } from "@prisma/client";
+import Image from "next/image";
 
-export const columns: ColumnDef<Communities>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -26,12 +25,35 @@ export const columns: ColumnDef<Communities>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "image",
+    header: "BACKGROUND IMAGE",
+    size: 50,
+    cell: ({ row }) => (
+      <Image
+        src={row.original.community?.image}
+        width={100}
+        height={100}
+        alt="image"
+      />
+    ),
+  },
+  {
     accessorKey: "name",
     header: "NAME",
+    size: 100,
+    cell: ({ row }) => <p>{row.original.community?.name}</p>,
   },
   {
     accessorKey: "description",
     header: "DESCRIPTION",
+    size: 200,
+    cell: ({ row }) => (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: row.original.community?.description?.slice(0, 200) + "...",
+        }}
+      />
+    ),
   },
   {
     id: "actions",

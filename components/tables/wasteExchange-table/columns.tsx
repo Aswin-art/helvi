@@ -1,11 +1,10 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Employee } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Blogs, WasteExchanges } from "@prisma/client";
+import Image from "next/image";
 
-export const columns: ColumnDef<WasteExchanges>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -20,6 +19,20 @@ export const columns: ColumnDef<WasteExchanges>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "image",
+    header: "IMAGE",
+    cell: ({ row }) => (
+      <Image
+        src={row.original.image ?? ""}
+        alt="image-waste-exchanges"
+        width={100}
+        height={100}
       />
     ),
     enableSorting: false,

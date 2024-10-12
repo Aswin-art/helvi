@@ -1,5 +1,5 @@
 "use client";
-import { leaveCommunity } from "@/actions/communityAction";
+import { deleteCommunity } from "@/actions/communityAction";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,10 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import { Blogs, Communities, User } from "@prisma/client";
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -26,16 +24,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
   const onConfirm = async () => {
-    setLoading(true);
-
-    const req = await leaveCommunity(data.community_id);
+    const req = await deleteCommunity(data.id);
     setOpen(false);
-
-    setLoading(false);
 
     if (req) {
       window.location.reload();
-      return toast.success("Berhasil meninggalkan komunitas!");
+      return toast.success("Berhasil menghapus komunitas!");
     }
 
     return toast.error("Server mengalami gangguan!");
@@ -60,12 +54,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/communities/${data.community_id}`)}
+            onClick={() => router.push(`/users/communities/${data.id}`)}
           >
             <Eye className="mr-2 h-4 w-4" /> Detail
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> TInggalkan
+            <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

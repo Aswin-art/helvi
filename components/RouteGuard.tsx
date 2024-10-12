@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 type Props = {
@@ -9,18 +9,28 @@ type Props = {
 
 const RouteGuard = ({ children, role }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (role) {
-      if (role === "USER") {
+      if (
+        role === "USER" &&
+        (pathname.startsWith("/admin") || pathname.startsWith("/admin-post"))
+      ) {
         router.replace("/users");
-      } else if (role === "ADMIN") {
+      } else if (
+        role === "ADMIN" &&
+        (pathname.startsWith("/users") || pathname.startsWith("/admin-post"))
+      ) {
         router.replace("/admin");
-      } else if (role === "ADMIN_POST") {
+      } else if (
+        role === "ADMIN_POST" &&
+        (pathname.startsWith("/users") || pathname.startsWith("/admin"))
+      ) {
         router.replace("/admin-post");
       }
     }
-  }, [role, router]);
+  }, [role, router, pathname]);
 
   return <>{children}</>;
 };

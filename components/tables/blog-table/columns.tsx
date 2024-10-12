@@ -31,7 +31,10 @@ export const columns: ColumnDef<Blogs>[] = [
   },
   {
     accessorKey: "description",
-    header: "DESCRIPTIION",
+    header: "DESCRIPTION",
+    cell: ({ row }) => (
+      <div dangerouslySetInnerHTML={{ __html: row.original.description }} />
+    ),
   },
   {
     id: "actions",

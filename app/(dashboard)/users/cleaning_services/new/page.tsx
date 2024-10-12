@@ -49,7 +49,7 @@ const breadcrumbItems = [
   },
 ];
 
-export default function page() {
+export default function Page() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,7 +73,7 @@ export default function page() {
       toast.success("Berhasil");
 
       setTimeout(() => {
-        router.push("/user/cleaning_services");
+        router.push("/users/cleaning_services");
       }, 2000);
     }
   }

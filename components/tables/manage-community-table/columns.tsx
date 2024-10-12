@@ -26,31 +26,28 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "image",
-    header: "IMAGE",
+    header: "BACKGROUND IMAGE",
+    size: 50,
     cell: ({ row }) => (
-      <Image
-        src={row.original.image}
-        width={100}
-        height={100}
-        alt="image-waste-report"
-      />
+      <Image src={row.original?.image} width={100} height={100} alt="image" />
     ),
   },
   {
-    accessorKey: "user.name",
-    header: "USER",
+    accessorKey: "name",
+    header: "NAME",
+    size: 100,
+    cell: ({ row }) => <p>{row.original?.name}</p>,
   },
   {
-    accessorKey: "location",
-    header: "LOCATION",
-  },
-  {
-    accessorKey: "status",
-    header: "STATUS",
+    accessorKey: "description",
+    header: "DESCRIPTION",
+    size: 200,
     cell: ({ row }) => (
-      <p className={row.original.status ? "text-green-500" : "text-red-500"}>
-        {row.original.status ? "Diproses" : "Belum diproses"}
-      </p>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: row.original?.description?.slice(0, 200) + "...",
+        }}
+      />
     ),
   },
   {

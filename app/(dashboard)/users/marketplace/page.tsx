@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/user" },
-  { title: "Marketplace", link: "/user/marketplace" },
+  { title: "Marketplace", link: "/users/marketplace" },
 ];
 
 type paramsProps = {

@@ -1,11 +1,36 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export const getAllEvents = async () => {
   const events = await db.events.findMany();
 
   return events;
+};
+
+export const getUserEvents = async () => {
+  const user = await currentUser();
+
+  if (!user) redirect("/sign-in");
+
+  try {
+    const events = await db.userEvents.findMany({
+      where: {
+        user_id: user.id,
+      },
+      include: {
+        event: true,
+      },
+    });
+
+    return events;
+  } catch (err) {
+    console.log(err);
+
+    return null;
+  }
 };
 
 export const getEventById = async (id: string) => {
@@ -23,6 +48,29 @@ export const getEventById = async (id: string) => {
   });
 
   return event;
+};
+
+export const getAllCommunityEvents = async (communityId: string) => {
+  try {
+    const community = await db.communities.findUnique({
+      where: {
+        id: communityId,
+      },
+    });
+
+    if (!community) return null;
+
+    const events = await db.events.findMany({
+      where: {
+        community_id: community.id,
+      },
+    });
+
+    return events;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };
 
 export const joinEvent = async (event_id: string, user_id: string) => {
@@ -60,5 +108,6 @@ export const createNewEvent = async (
     return createEvent;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };

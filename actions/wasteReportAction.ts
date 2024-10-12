@@ -15,7 +15,25 @@ export const getAllWasteReports = async () => {
   return waste_exchanges;
 };
 
-export const createNewWasteReport = async (location: string) => {
+export const getUserWasteReports = async () => {
+  const user = await currentUser();
+
+  if (!user) return redirect("/sign-in");
+  try {
+    const wasteReports = await db.wasteReports.findMany({
+      where: {
+        user_id: user.id,
+      },
+    });
+
+    return wasteReports;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const createNewWasteReport = async (location: string, image: string) => {
   const user = await currentUser();
 
   if (user) {
@@ -23,18 +41,17 @@ export const createNewWasteReport = async (location: string) => {
       const createWasteReports = await db.wasteReports.create({
         data: {
           user_id: user.id,
-          image: "test",
-          point: 0,
-          coin: 0,
+          image: image,
+          point: 10,
+          coin: 10,
           location,
         },
       });
 
-      await addPoinCoinUser(user.id, 10, 10);
-
       return createWasteReports;
     } catch (err) {
       console.log(err);
+      return null;
     }
   }
 
@@ -54,5 +71,30 @@ export const updateWasteReports = async (id: string) => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const deleteWasteReports = async (id: string) => {
+  try {
+    const wasteReport = await db.wasteReports.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!wasteReport) return null;
+
+    const deleteReport = await db.wasteReports.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!deleteReport) return null;
+
+    return true;
+  } catch (err) {
+    console.log("waste-report-delete", err);
+    return null;
   }
 };

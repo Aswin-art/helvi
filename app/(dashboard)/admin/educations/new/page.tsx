@@ -64,7 +64,7 @@ export default function page() {
         </div>
         <Separator />
 
-        <Editor />
+        {/* <Editor /> */}
       </div>
     </>
   );

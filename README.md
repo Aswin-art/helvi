@@ -1,40 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Helvi
 
-## Getting Started
+Proyek ini adalah **Sistem Manajemen Bank Sampah** yang bertujuan untuk memfasilitasi pengelolaan sampah secara bertanggung jawab dan terintegrasi dengan berbagai fitur. Platform ini menyediakan solusi untuk pengumpulan, penukaran sampah, serta menjadi wadah bagi komunitas yang peduli terhadap lingkungan.
 
-First, run the development server:
+## 🛠️ Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Database**: [MySQL](https://www.mysql.com/) dengan [Prisma ORM](https://www.prisma.io/)
+- **Form Validation**: [Zod](https://zod.dev/)
+- **Komponen UI**: [shadcn/ui](https://ui.shadcn.dev/)
+- **Rich Text Editor**: [Blocknote Editor](https://blocknote.dev/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Fitur Utama
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Mengumpulkan dan Menukarkan Sampah**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   - Pengguna dapat mengumpulkan dan menukarkan sampah yang dapat didaur ulang dengan imbalan atau poin.
 
-## Tech Stack
+2. **Melaporkan Penumpukan Sampah**
 
-To learn more about Next.js, take a look at the following resources:
+   - Fitur untuk melaporkan lokasi penumpukan sampah yang memerlukan tindakan lebih lanjut untuk dibersihkan.
 
-- Shadcn/ui
-- RHF + Zod
-- Zustand
-- Uploadthing
-- Clerk
-- Prisma
+3. **Penyedia Jasa Kebersihan**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   - Platform ini memungkinkan pengguna untuk memesan jasa kebersihan untuk area sekitar mereka.
 
-## Deploy on Vercel
+4. **Informasi Jadwal Keliling**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - Menyediakan jadwal terkini mengenai pengumpulan sampah di berbagai area.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. **Wadah untuk Komunitas & Event Lingkungan**
+
+   - Fasilitasi komunitas dan event terkait lingkungan untuk mendukung inisiatif ramah lingkungan.
+
+6. **Berita Terupdate tentang Pengelolaan Sampah**
+
+   - Menyediakan berita dan informasi terkini tentang pengelolaan sampah, daur ulang, dan isu lingkungan.
+
+7. **Sistem Gamifikasi**
+
+   - Pengguna dapat mengumpulkan poin dan mendapatkan badge berdasarkan kontribusi mereka terhadap pengelolaan sampah.
+
+8. **Marketplace Produk Olahan Sampah**
+   - Marketplace untuk membeli dan menjual produk yang terbuat dari hasil daur ulang sampah.
+
+## 🎯 Peran Pengguna
+
+Proyek ini memiliki 3 peran pengguna utama:
+
+1. **Admin**: Memiliki akses penuh untuk mengelola semua fitur, termasuk manajemen pengguna dan pengaturan sistem.
+2. **Admin Post**: Bertanggung jawab atas manajemen konten, seperti membuat dan mengelola berita atau event.
+3. **User**: Pengguna yang dapat memanfaatkan fitur seperti melaporkan sampah, menukarkan sampah, dan mengikuti komunitas atau event.
+
+## ⚙️ Cara Instalasi
+
+1. Clone repositori:
+   ```bash
+   git clone https://github.com/username/repo-bank-sampah.git
+   cd repo-bank-sampah
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Atur variabel lingkungan:
+   - Buat file .env di direktori root dan tambahkan variabel lingkungan yang dibutuhkan untuk MySQL, Prisma, dll.
+4. Jalankan migrasi database:
+   ```bash
+   npx prisma migrate dev
+   ```
+5. Mulai server pengembangan:
+   ```bash
+   npm run dev
+   ```
+
+## 📜 Lisensi
+
+Proyek ini dilisensikan di bawah lisensi MIT.

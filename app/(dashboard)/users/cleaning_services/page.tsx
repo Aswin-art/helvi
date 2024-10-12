@@ -52,7 +52,7 @@ export default async function page({ searchParams }: paramsProps) {
           />
 
           <Link
-            href={"/user/cleaning_services/new"}
+            href={"/users/cleaning_services/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New

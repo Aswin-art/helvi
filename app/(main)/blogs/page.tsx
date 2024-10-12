@@ -17,7 +17,7 @@ import React from "react";
 type Props = {};
 
 const Page = async (props: Props) => {
-  const blogs = await getAllBlogs();
+  const blogs: any = await getAllBlogs();
   return (
     <Wrapper>
       <div className="pt-40">
@@ -39,8 +39,8 @@ const Page = async (props: Props) => {
             </div>
             <div className="col-span-9">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {blogs.map((blog) => (
-                  <Link href={"/blogs/" + blog.id}>
+                {blogs.map((blog: any) => (
+                  <Link key={blog.id} href={"/blogs/" + blog.id}>
                     <Card>
                       <Image
                         src={"/preview.png"}
@@ -52,7 +52,11 @@ const Page = async (props: Props) => {
                       <CardHeader>
                         <CardTitle>{blog.title}</CardTitle>
                         <CardDescription className="max-w-lg">
-                          {blog.description}
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: blog.description,
+                            }}
+                          />
                         </CardDescription>
                       </CardHeader>
                       <CardFooter>

@@ -1,8 +1,8 @@
+"use client";
 import { getAllCommunities } from "@/actions/communityAction";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -12,12 +12,22 @@ import { Input } from "@/components/ui/input";
 import Wrapper from "@/components/Wrapper";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
-const Page = async (props: Props) => {
-  const communities = await getAllCommunities();
+const Page = (props: Props) => {
+  const [communities, setCommunities] = useState<any>([]);
+
+  const getData = async () => {
+    const data = await getAllCommunities();
+
+    setCommunities(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Wrapper>
       <div className="pt-40">
@@ -39,24 +49,28 @@ const Page = async (props: Props) => {
             </div>
             <div className="col-span-9">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {communities.map((community) => (
+                {communities.map((community: any) => (
                   <Link
                     key={community.id}
                     href={"/communities/" + community.id}
                   >
                     <Card>
                       <Image
-                        src={"/preview.png"}
+                        src={community?.image}
                         alt="image"
                         width={600}
                         height={600}
-                        className="object-contain"
+                        className="object-contain rounded"
                       />
                       <CardHeader>
-                        <CardTitle>{community.id}</CardTitle>
-                        <CardDescription className="max-w-lg">
-                          {community.description}
-                        </CardDescription>
+                        <CardTitle>{community.name}</CardTitle>
+                        <CardDescription
+                          className="max-w-lg"
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              community.description.slice(0, 300) + "....",
+                          }}
+                        />
                       </CardHeader>
                       <CardFooter>
                         <div className="ms-auto">

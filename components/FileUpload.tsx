@@ -7,7 +7,7 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import toast from "react-hot-toast";
 
 type Props = {
-  apiEndpoint: "avatar";
+  apiEndpoint: "image";
   onChange: (url?: string) => void;
   value?: string;
 };
@@ -16,7 +16,7 @@ const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
   if (value) {
     return (
       <div className="flex flex-col items-center justify-center">
-        <div className="relative w-40 h-40">
+        <div className="relative w-96 h-96">
           <Image
             src={value}
             alt="uploaded image"

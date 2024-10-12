@@ -70,7 +70,7 @@ model CleaningServices {
   id               String       @id @default(cuid())
   user_id          String
   user             User         @relation(fields: [user_id], references: [id])
-  description      String
+  description      String       @db.LongText()
   address          String
   customer_contact String
   type             CLEANINGTYPE @default(PUBLIC)
@@ -83,7 +83,7 @@ model CleaningServices {
 model Products {
   id          String     @id @default(cuid())
   name        String
-  description String
+  description String     @db.LongText()
   image       String?
   price       Decimal
   created_at  DateTime   @default(now())
@@ -106,7 +106,7 @@ model Communities {
   user_id         String
   user            User              @relation(fields: [user_id], references: [id])
   name            String
-  description     String
+  description     String            @db.LongText()
   image           String
   created_at      DateTime          @default(now())
   updated_at      DateTime          @updatedAt
@@ -129,9 +129,9 @@ model Events {
   community_id String
   community    Communities  @relation(fields: [community_id], references: [id])
   title        String
-  description  String
+  description  String       @db.LongText()
   image        String
-  location     String
+  location     String       @db.LongText()
   event_date   DateTime
   created_at   DateTime     @default(now())
   updated_at   DateTime     @updatedAt
@@ -152,7 +152,7 @@ model UserEvents {
 model Blogs {
   id          String     @id @default(cuid())
   title       String
-  description String
+  description String     @db.LongText()
   image       String?
   status      Boolean    @default(true)
   type        BLOGTYPE   @default(BLOG)
@@ -176,7 +176,7 @@ model Comments {
 model Achievements {
   id               String             @id @default(cuid())
   name             String
-  description      String
+  description      String             @db.LongText()
   image            String
   created_at       DateTime           @default(now())
   updated_at       DateTime           @updatedAt
@@ -196,7 +196,7 @@ model UserAchievements {
 model DailyMissions {
   id           String         @id @default(cuid())
   title        String
-  description  String
+  description  String         @db.LongText()
   point        Int
   coin         Int
   status       Boolean        @default(true)
@@ -249,7 +249,7 @@ model LogActivities {
 model AdminPosts {
   id          String   @id @default(cuid())
   name        String
-  description String
+  description String   @db.LongText()
   location    String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt

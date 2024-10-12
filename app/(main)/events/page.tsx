@@ -40,7 +40,7 @@ const Page = async (props: Props) => {
             <div className="col-span-9">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {events.map((event) => (
-                  <Link href={"/events/" + event.id}>
+                  <Link key={event.id} href={"/events/" + event.id}>
                     <Card>
                       <Image
                         src={"/preview.png"}
@@ -51,9 +51,12 @@ const Page = async (props: Props) => {
                       />
                       <CardHeader>
                         <CardTitle>{event.title}</CardTitle>
-                        <CardDescription className="max-w-lg">
-                          {event.description}
-                        </CardDescription>
+                        <CardDescription
+                          className="max-w-lg"
+                          dangerouslySetInnerHTML={{
+                            __html: event?.description?.slice(0, 200) + "...",
+                          }}
+                        />
                       </CardHeader>
                       <CardFooter>
                         <div className="ms-auto">

@@ -1,19 +1,25 @@
-import { getAllCommunities } from "@/actions/communityAction";
+"use client";
+import {
+  getAllCreatedCommunity,
+  getFollowedCommunity,
+} from "@/actions/communityAction";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CommunityTable } from "@/components/tables/community-table/community-table";
 import { columns } from "@/components/tables/community-table/columns";
-import { EmployeeTable } from "@/components/tables/employee-tables/employee-table";
+import { columns as ManageCommunityColumns } from "@/components/tables/manage-community-table/columns";
+import { ManageCommunityTable } from "@/components/tables/manage-community-table/community-table";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useState } from "react";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/user" },
-  { title: "Komunitas", link: "/user/communities" },
+  { title: "Komunitas", link: "/users/communities" },
 ];
 
 type paramsProps = {
@@ -22,30 +28,52 @@ type paramsProps = {
   };
 };
 
-export default async function page({ searchParams }: paramsProps) {
-  const page = Number(searchParams.page) || 1;
-  const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
+export default function Page() {
+  const [followedCommunities, setFollowedCommunities] = useState<any>([]);
+  const [createdCommunities, setCreatedCommunities] = useState<any>([]);
 
-  const res = await getAllCommunities();
-  // const employeeRes = await res.json();
-  // const totalUsers = employeeRes.total_users; //1000
-  // const pageCount = Math.ceil(totalUsers / pageLimit);
-  // const employee: Employee[] = employeeRes.users;
+  const getData = async () => {
+    const followedCommunity: any = await getFollowedCommunity();
+    const createdCommunity: any = await getAllCreatedCommunity();
+
+    setFollowedCommunities(followedCommunity);
+    setCreatedCommunities(createdCommunity);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
-    <>
+    <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Komunitas (${res.length})`}
+            title={`Komunitas Yang Diikuti (${followedCommunities.length})`}
+            description="Manage komunitas"
+          />
+        </div>
+        <Separator />
+
+        <CommunityTable
+          searchKey="name"
+          pageNo={1}
+          columns={columns}
+          totalData={followedCommunities.length}
+          data={followedCommunities}
+          pageCount={1}
+        />
+      </div>
+      <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
+        <div className="flex items-start justify-between">
+          <Heading
+            title={`Komunitas Yang Dibuat (${createdCommunities.length})`}
             description="Manage komunitas"
           />
 
           <Link
-            href={"/user/communities/new"}
+            href={"/users/communities/create"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -53,15 +81,15 @@ export default async function page({ searchParams }: paramsProps) {
         </div>
         <Separator />
 
-        <CommunityTable
-          searchKey="title"
+        <ManageCommunityTable
+          searchKey="name"
           pageNo={1}
-          columns={columns}
-          totalData={res.length}
-          data={res}
+          columns={ManageCommunityColumns}
+          totalData={createdCommunities.length}
+          data={createdCommunities}
           pageCount={1}
         />
       </div>
-    </>
+    </ScrollArea>
   );
 }

@@ -24,7 +24,11 @@ export default function RootLayout({
         <body>
           <NextTopLoader color="#1e40af" />
           <Toaster position="top-center" />
-          <ThemeProvider attribute="class" disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            disableTransitionOnChange
+            defaultTheme="light"
+          >
             {children}
           </ThemeProvider>
         </body>
